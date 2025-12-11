@@ -1,4 +1,5 @@
 import node
+import random
 
 class Tree:
     def __init__(self):
@@ -29,12 +30,28 @@ class Tree:
         if searchValue > currentNode.data:
             return self.findNode(currentNode.right, searchValue)
         elif searchValue <= currentNode.data:
-            return self.findNode(currentNode.left, searchValue)  
+            return self.findNode(currentNode.left, searchValue)
+
+    def create5000Nodes(self):
+        randNum = random.randint(1, 5000)
+        self.root = self.addNode(myTree.root, randNum)
+
+        for i in range(4999):
+            randNum = random.randint(1, 5000)
+            self.addNode(self.root, randNum)
+
+    def findLongestPath(self, currentNode):
+        if currentNode == None:
+            return -1   
+
+        leftDepth = self.findLongestPath(currentNode.left)
+
+        rightDepth = self.findLongestPath(currentNode.right)
+
+        depth = 1 + max(leftDepth, rightDepth)
+
+        return depth
 
 myTree = Tree()
-myTree.root = myTree.addNode(myTree.root, 1)
-myTree.addNode(myTree.root, 2)
-myTree.addNode(myTree.root, 3)
-
-print(myTree.findNode(myTree.root, 3))
-print(myTree.findNode(myTree.root, 4))
+myTree.create5000Nodes()
+print(myTree.findLongestPath(myTree.root))
