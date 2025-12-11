@@ -5,7 +5,7 @@ class Tree:
     def __init__(self):
         self.root = None
 
-    def addNode(self, currentNode, newNodeData):
+    def __addNode(self, currentNode, newNodeData):
         newNode = node.Node(newNodeData)
 
         # IF TREE IS EMPTY THEN FIRST ADDITION MUST BE ASSIGNED TO ROOT
@@ -14,9 +14,9 @@ class Tree:
             return newNode  
 
         if newNodeData > currentNode.data:
-            currentNode.right = self.addNode(currentNode.right, newNodeData)
+            currentNode.right = self.__addNode(currentNode.right, newNodeData)
         elif newNodeData <= currentNode.data:
-            currentNode.left = self.addNode(currentNode.left, newNodeData)
+            currentNode.left = self.__addNode(currentNode.left, newNodeData)
 
         return currentNode
 
@@ -34,24 +34,27 @@ class Tree:
 
     def create5000Nodes(self):
         randNum = random.randint(1, 5000)
-        self.root = self.addNode(myTree.root, randNum)
+        self.root = self.__addNode(myTree.root, randNum)
 
         for i in range(4999):
             randNum = random.randint(1, 5000)
-            self.addNode(self.root, randNum)
+            self.__addNode(self.root, randNum)
 
-    def findLongestPath(self, currentNode):
+    def __findLongestPath(self, currentNode):
         if currentNode == None:
             return -1   
 
-        leftDepth = self.findLongestPath(currentNode.left)
+        leftDepth = self.__findLongestPath(currentNode.left)
 
-        rightDepth = self.findLongestPath(currentNode.right)
+        rightDepth = self.__findLongestPath(currentNode.right)
 
         depth = 1 + max(leftDepth, rightDepth)
 
         return depth
 
+    def printLongestPath(self):
+        print("The longest path in this tree is:", self.__findLongestPath(self.root))
+
 myTree = Tree()
 myTree.create5000Nodes()
-print(myTree.findLongestPath(myTree.root))
+myTree.printLongestPath()
