@@ -1,5 +1,6 @@
 import node
 import random
+import time
 
 class Tree:
     def __init__(self):
@@ -32,12 +33,12 @@ class Tree:
         elif searchValue <= currentNode.data:
             return self.findNode(currentNode.left, searchValue)
 
-    def create5000Nodes(self):
-        randNum = random.randint(1, 5000)
+    def createMultipleRandomNodes(self, numOfNodes):
+        randNum = random.randint(1, numOfNodes)
         self.root = self.__addNode(myTree.root, randNum)
 
-        for i in range(4999):
-            randNum = random.randint(1, 5000)
+        for i in range(numOfNodes - 1): 
+            randNum = random.randint(1, numOfNodes)
             self.__addNode(self.root, randNum)
 
     def __findLongestPath(self, currentNode):
@@ -55,6 +56,11 @@ class Tree:
     def printLongestPath(self):
         print("The longest path in this tree is:", self.__findLongestPath(self.root))
 
-myTree = Tree()
-myTree.create5000Nodes()
-myTree.printLongestPath()
+if __name__ == "__main__":
+    # start = time.time()
+    myTree = Tree()
+    myTree.createMultipleRandomNodes()
+    myTree.printLongestPath()
+    # end = time.time()
+
+    # print(f"Execution time: {round(end - start, 5)}ms")
