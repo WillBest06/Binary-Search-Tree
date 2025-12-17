@@ -34,11 +34,15 @@ class Tree:
             return self.findNode(currentNode.left, searchValue)
 
     def createMultipleRandomNodes(self, numOfNodes):
-        randNum = random.randint(1, numOfNodes)
-        self.root = self.__addNode(myTree.root, randNum)
+        existingNodes = []
+        randNum = random.randint(1, numOfNodes) 
+        self.root = self.__addNode(myTree.root, randNum) # initialises the tree 
 
-        for i in range(numOfNodes - 1): 
+        for i in range(numOfNodes - 1):
             randNum = random.randint(1, numOfNodes)
+            if randNum in existingNodes: continue # avoids duplicating numbers
+
+            existingNodes.append(randNum)
             self.__addNode(self.root, randNum)
 
     def __findLongestPath(self, currentNode):
@@ -54,13 +58,44 @@ class Tree:
         return depth
 
     def printLongestPath(self):
-        print("The longest path in this tree is:", self.__findLongestPath(self.root))
+        print("\nThe longest path in this tree is:", self.__findLongestPath(self.root))
 
-if __name__ == "__main__":
-    # start = time.time()
+    def run(self):
+        start = time.time()
+
+        nodeCreationStart = time.time()
+        self.createMultipleRandomNodes(50000)
+        nodeCreationEnd = time.time()
+
+        self.__prettyPrint(self.root)
+
+        nodeFindStart = time.time()
+        self.printLongestPath()
+        nodeFindEnd = time.time()
+
+        end = time.time()
+
+        print(f"\nTree creation time: {round(nodeCreationEnd - nodeCreationStart, 5)}ms")
+        print(f"\nLongest path location time: {round(nodeFindEnd - nodeFindStart, 5)}ms")
+        print(f"\nTotal execution time: {round(end - start, 5)}ms")
+        
+    # Adapted from https://www.theodinproject.com/lessons/javascript-binary-search-trees#assignment
+    def __prettyPrint(self, node, prefix = "", isLeft = True):
+        if node == None:
+            return
+    
+        if node.right != None:
+            string = "|   " if isLeft else "    "
+            self.__prettyPrint(node.right, f"{prefix}{string}", False)
+
+        otherString = "└── " if isLeft else "┌── "
+        
+        print(f"{prefix}{otherString}{node.data}");
+
+        if node.left != None:
+            string = "    " if isLeft else "│   "
+            self.__prettyPrint(node.left, f"{prefix}{string}", True)
+   
+if __name__ == "__main__": 
     myTree = Tree()
-    myTree.createMultipleRandomNodes()
-    myTree.printLongestPath()
-    # end = time.time()
-
-    # print(f"Execution time: {round(end - start, 5)}ms")
+    myTree.run()
