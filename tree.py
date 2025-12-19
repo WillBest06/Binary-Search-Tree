@@ -34,16 +34,18 @@ class Tree:
             return self.findNode(currentNode.left, searchValue)
 
     def createMultipleRandomNodes(self, numOfNodes):
-        existingNodes = []
-        randNum = random.randint(1, numOfNodes) 
-        self.root = self.__addNode(myTree.root, randNum) # initialises the tree 
+        existingNodes = set()
 
-        for i in range(numOfNodes - 1):
-            randNum = random.randint(1, numOfNodes)
-            if randNum in existingNodes: continue # avoids duplicating numbers
+        while len(existingNodes) < numOfNodes:
+            randNum = random.randint(1, numOfNodes) 
+            
+            if randNum not in existingNodes: 
+                if self.root == None:
+                    self.root = self.__addNode(myTree.root, randNum) # initialises the tree
+                else:
+                    self.__addNode(self.root, randNum)
 
-            existingNodes.append(randNum)
-            self.__addNode(self.root, randNum)
+                existingNodes.add(randNum)
 
     def __findLongestPath(self, currentNode):
         if currentNode == None:
@@ -64,7 +66,7 @@ class Tree:
         start = time.time()
 
         nodeCreationStart = time.time()
-        self.createMultipleRandomNodes(50000)
+        self.createMultipleRandomNodes(5000000)
         nodeCreationEnd = time.time()
 
         self.__prettyPrint(self.root)
@@ -75,9 +77,9 @@ class Tree:
 
         end = time.time()
 
-        print(f"\nTree creation time: {round(nodeCreationEnd - nodeCreationStart, 5)}ms")
-        print(f"\nLongest path location time: {round(nodeFindEnd - nodeFindStart, 5)}ms")
-        print(f"\nTotal execution time: {round(end - start, 5)}ms")
+        print(f"\nTree creation time: {round(nodeCreationEnd - nodeCreationStart, 5)}s")
+        print(f"\nLongest path location time: {round(nodeFindEnd - nodeFindStart, 5)}s")
+        print(f"\nTotal execution time: {round(end - start, 5)}s")
         
     # Adapted from https://www.theodinproject.com/lessons/javascript-binary-search-trees#assignment
     def __prettyPrint(self, node, prefix = "", isLeft = True):
