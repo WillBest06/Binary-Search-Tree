@@ -62,11 +62,25 @@ class Tree:
     def printLongestPath(self):
         print("\nThe longest path in this tree is:", self.__findLongestPath(self.root))
 
+    def getNumOfNodes(self, node):
+        leftChildren = 0
+        rightChildren = 0
+
+        if node == None:
+            return 0
+
+        if node.left != None:
+            leftChildren = self.getNumOfNodes(node.left)
+        if node.right != None:
+            rightChildren = self.getNumOfNodes(node.right)
+
+        return leftChildren + rightChildren + 1
+
     def run(self):
         start = time.time()
 
         nodeCreationStart = time.time()
-        self.createMultipleRandomNodes(5000000)
+        self.createMultipleRandomNodes(5000)
         nodeCreationEnd = time.time()
 
         self.__prettyPrint(self.root)
@@ -101,3 +115,4 @@ class Tree:
 if __name__ == "__main__": 
     myTree = Tree()
     myTree.run()
+    print(myTree.getNumOfNodes(myTree.root))
