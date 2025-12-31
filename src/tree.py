@@ -1,4 +1,4 @@
-import node
+from src.node import Node
 import random
 import time
 
@@ -7,7 +7,7 @@ class Tree:
         self.root = None
 
     def __addNode(self, currentNode, newNodeData):
-        newNode = node.Node(newNodeData)
+        newNode = Node(newNodeData)
 
         # IF TREE IS EMPTY THEN FIRST ADDITION MUST BE ASSIGNED TO ROOT
         # E.G. myTree.root = myTree.addNode(myTree.root, 1)
@@ -41,7 +41,7 @@ class Tree:
             
             if randNum not in existingNodes: 
                 if self.root == None:
-                    self.root = self.__addNode(myTree.root, randNum) # initialises the tree
+                    self.root = self.__addNode(self.root, randNum) # initialises the tree
                 else:
                     self.__addNode(self.root, randNum)
 
