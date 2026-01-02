@@ -1,4 +1,4 @@
-from src.node import Node
+from node import Node
 import random
 import time
 
@@ -59,9 +59,6 @@ class Tree:
 
         return depth
 
-    def printLongestPath(self):
-        print("\nThe longest path in this tree is:", self.__findLongestPath(self.root))
-
     def getNumOfNodes(self, node):
         leftChildren = 0
         rightChildren = 0
@@ -86,7 +83,7 @@ class Tree:
         self.__prettyPrint(self.root)
 
         nodeFindStart = time.time()
-        self.printLongestPath()
+        print("\nThe longest path in this tree is:", self.__findLongestPath())
         nodeFindEnd = time.time()
 
         end = time.time()
