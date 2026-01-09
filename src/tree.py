@@ -1,4 +1,4 @@
-from node import Node
+from .node import Node
 import random
 import time
 
@@ -6,7 +6,7 @@ class Tree:
     def __init__(self):
         self.root = None
 
-    def __addNode(self, currentNode, newNodeData):
+    def addNode(self, currentNode, newNodeData):
         newNode = Node(newNodeData)
 
         # IF TREE IS EMPTY THEN FIRST ADDITION MUST BE ASSIGNED TO ROOT
@@ -15,9 +15,9 @@ class Tree:
             return newNode  
 
         if newNodeData > currentNode.data:
-            currentNode.right = self.__addNode(currentNode.right, newNodeData)
+            currentNode.right = self.addNode(currentNode.right, newNodeData)
         elif newNodeData <= currentNode.data:
-            currentNode.left = self.__addNode(currentNode.left, newNodeData)
+            currentNode.left = self.addNode(currentNode.left, newNodeData)
 
         return currentNode
 
@@ -34,6 +34,9 @@ class Tree:
             return self.findNode(currentNode.left, searchValue)
 
     def createMultipleRandomNodes(self, numOfNodes):
+        if type(numOfNodes) is not int or numOfNodes < 0 :
+            raise TypeError("Number of nodes must be a positive integer")
+
         existingNodes = set()
 
         while len(existingNodes) < numOfNodes:
@@ -41,19 +44,19 @@ class Tree:
             
             if randNum not in existingNodes: 
                 if self.root == None:
-                    self.root = self.__addNode(self.root, randNum) # initialises the tree
+                    self.root = self.addNode(self.root, randNum) # initialises the tree
                 else:
-                    self.__addNode(self.root, randNum)
+                    self.addNode(self.root, randNum)
 
                 existingNodes.add(randNum)
 
-    def __findLongestPath(self, currentNode):
+    def findLongestPath(self, currentNode):
         if currentNode == None:
             return -1   
 
-        leftDepth = self.__findLongestPath(currentNode.left)
+        leftDepth = self.findLongestPath(currentNode.left)
 
-        rightDepth = self.__findLongestPath(currentNode.right)
+        rightDepth = self.findLongestPath(currentNode.right)
 
         depth = 1 + max(leftDepth, rightDepth)
 
@@ -83,7 +86,7 @@ class Tree:
         self.__prettyPrint(self.root)
 
         nodeFindStart = time.time()
-        print("\nThe longest path in this tree is:", self.__findLongestPath())
+        print("\nThe longest path in this tree is:", self.findLongestPath(self.root))
         nodeFindEnd = time.time()
 
         end = time.time()
